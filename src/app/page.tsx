@@ -1,29 +1,14 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+"use client";
+
+import { ThemeContext } from "@/context/ThemeContext";
+import { useContext } from "react";
 
 export default function Home() {
+  const { theme, toggle } = useContext(ThemeContext);
   return (
-    <div className="w-screen h-screen bg-gradient-to-tl from-[#040D12]  to-slate-800 overflow-y-scroll overflow-x-hidden flex flex-col">
-      <div className="w-[80%] m-auto h-fit">
-        <Card>
-          <CardHeader>
-            <CardTitle>Card Title</CardTitle>
-            <CardDescription>Card Description</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter>
-            <p>Card Footer</p>
-          </CardFooter>
-        </Card>
-      </div>
+    <div>
+      <div>{theme}</div>
+      <button onClick={() => toggle()}>change theme</button>
     </div>
   );
 }

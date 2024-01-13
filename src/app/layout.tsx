@@ -1,9 +1,10 @@
-import Navbar from "@/components/navbar/Navbar";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Topbar from "@/components/topbar/topbar";
+
 import { auth } from "@/lib/auth";
+import { ThemeContextProvider } from "@/context/ThemeContext";
+import { ThemeProvider } from "@/provider/ThemeProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,22 +18,13 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await auth();
-  if (session) {
-    return (
-      <html lang="en">
-        <body className={inter.className}>
-          <Topbar />
-          <Navbar />
-          {children}
-        </body>
-      </html>
-    );
-  } else {
-    return (
-      <html lang="en">
-        <body className={inter.className}>{children}</body>
-      </html>
-    );
-  }
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <ThemeContextProvider>
+          <ThemeProvider>{children}</ThemeProvider>
+        </ThemeContextProvider>
+      </body>
+    </html>
+  );
 }
