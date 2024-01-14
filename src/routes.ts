@@ -1,0 +1,8 @@
+/**
+ * @constant
+ */
+export const nextAuthPrefix = "/api/auth";
+
+export const publicRoutes = ["/"];
+export const privateRoutes = ["/explore", "/home"];
+export const DEFAULT_REDIRECT = "/home";

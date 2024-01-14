@@ -1,5 +1,5 @@
 import Navbar from "@/components/navbar/Navbar";
-import "./globals.css";
+import "./global.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Topbar from "@/components/topbar/topbar";
@@ -18,6 +18,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
+
   if (session) {
     return (
       <html lang="en">
