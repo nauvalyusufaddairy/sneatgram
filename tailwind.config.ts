@@ -44,6 +44,13 @@ const config = {
       colors: {
         bg60: "#040D12",
         bg30: "#10181E",
+        bg10: "#36B5B0",
+        label: "rgb(249 250 251 / 0.8)",
+        inputBg: "rgb(243 244 246 / 0.05)",
+        inputBorder: "border-color: rgb(249 250 251 / 0.1)",
+        inputTextColor: "rgb(249 250 251 / 0.7)",
+        inputPlaceHolderTextColor: "rgb(249 250 251 / 0.1)",
+
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

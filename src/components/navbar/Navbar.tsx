@@ -748,16 +748,16 @@ function LgXlMd({
   whileTapEvent: any;
   setWhileTapEvent: any;
 }) {
-  type Selectors = "search" | "notification" | "";
+  type Selectors = "search" | "notification" | "create" | "";
   const [expandsPanel, setexpandsPanel] = useState(false);
   const [selector, setSelector] = useState<Selectors>("");
   const [counter, setCounter] = useState(0);
+  const [postPanel, setPostPanel] = useState(false);
 
   const handleExpandPanel = (selector: Selectors) => {
     console.log("expands panel", expandsPanel);
-
-    setSelector(selector);
     setexpandsPanel(!expandsPanel);
+    setSelector(selector);
   };
 
   if (expandsPanel) {
@@ -783,6 +783,8 @@ function LgXlMd({
               <NavbarNotification />
             </div>
           )}
+
+          {/* create post panel */}
         </motion.div>
 
         <motion.div
@@ -847,9 +849,12 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("search")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("search")}
+                onClick={() => {
+                  setWhileTapEvent("search");
+                  handleExpandPanel("search");
+                }}
                 whileHover={{ cursor: "pointer" }}
-                onClick={() => handleExpandPanel("search")}
+                // onClick={() => handleExpandPanel("search")}
                 className="w-[50px] h-[50px] flex justify-center items-center mt-2 "
               >
                 {/* onHover  */}
