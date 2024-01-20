@@ -70,7 +70,8 @@ type Post = {
   comments?: Array<Comments>;
   date?: string;
 };
-type Steps = {
-  step: "1" | "2" | "3" | "";
-  label: string;
-};
+type Steps =
+  | "Credential validations"
+  | "Email confirmation"
+  | "Personal informations"
+  | "";
