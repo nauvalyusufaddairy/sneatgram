@@ -7,7 +7,7 @@ const arrowVariants = cva("w-full flex items-center _lg:py-2 _md:py-1 mt-3", {
     variant: {
       prevStep: "text-white ml-2 hover:cursor-pointer",
       currentStep:
-        "text-bg10 bg-bg30 font-bold border-l-[5px] ml-2 border-l-bg10 hover:cursor-pointer ",
+        "text-bg10  font-bold border-l-[5px] ml-2 border-l-bg10 hover:cursor-pointer ",
       nextStep: "text-white/50  ml-2 hover:cursor-not-allowed",
     },
   },

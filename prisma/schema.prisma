@@ -30,21 +30,22 @@ model Account {
 }
 
 model User {
-  id                String       @id @default(cuid()) @map("_id")
-  name              String?      @unique
-  email             String?      @unique
-  emailVerified     DateTime?
-  image             String?
-  username          String       @default("")
-  accounts          Account[]
-  isVerifiedPerson  Boolean      @default(false)
-  isUserIdConfirmed Boolean      @default(false)
-  followed          String[]
-  following         String[]
-  dateOfBirth       String       @default("")
-  bio               String       @default("")
-  hobbies           String       @default("")
-  interestedAt      InterestedAt
+  id               String    @id @default(cuid()) @map("_id")
+  name             String?   @unique
+  email            String?   @unique
+  emailVerified    DateTime?
+  image            String?
+  username         String    @default("")
+  accounts         Account[]
+  isVerifiedPerson Boolean   @default(false)
+
+  followed     String[]
+  following    String[]
+  dateOfBirth  String        @default("")
+  bio          String        @default("")
+  hobbies      String        @default("")
+  interestedAt InterestedAt?
+  password     String?
 }
 
 enum InterestedAt {
