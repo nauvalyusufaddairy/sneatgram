@@ -31,3 +31,4 @@ export const Arrow = React.forwardRef<HTMLButtonElement, ArrowProps>(
     </button>
   )
 );
+Arrow.displayName = "Arrow";

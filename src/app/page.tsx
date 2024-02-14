@@ -101,7 +101,7 @@ export default function Home() {
             </div>
             <div className="w-full text-label flex items-center">
               {" "}
-              don't have an acount?{" "}
+              dont have an acount?{" "}
               <Button variant={"link"} className="text-blue-500">
                 {" "}
                 <Link href={"/credential_signup"}>Sign up</Link>
