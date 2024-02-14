@@ -31,11 +31,11 @@ model Account {
 
 model User {
   id               String    @id @default(cuid()) @map("_id")
-  name             String?   @unique
+  name             String?
   email            String?   @unique
   emailVerified    DateTime?
   image            String?
-  username         String    @default("")
+  username         String?   @unique
   accounts         Account[]
   isVerifiedPerson Boolean   @default(false)
 
@@ -46,6 +46,15 @@ model User {
   hobbies      String        @default("")
   interestedAt InterestedAt?
   password     String?
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid()) @map("_id")
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }
 
 enum InterestedAt {

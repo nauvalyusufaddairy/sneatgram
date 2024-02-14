@@ -17,6 +17,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { signIn } from "next-auth/react";
 import { DEFAULT_REDIRECT } from "@/routes";
+import Link from "next/link";
 export default function Home() {
   const form = useForm<zod.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -69,9 +70,16 @@ export default function Home() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-gray-50/80">
-                        password
-                      </FormLabel>
+                      <div className="w-full flex justify-between items-center">
+                        {" "}
+                        <FormLabel className="text-gray-50/80">
+                          password
+                        </FormLabel>
+                        <Button variant={"link"} className="text-blue-500">
+                          <Link href={"/"}> forgot password</Link>
+                        </Button>
+                      </div>
+
                       <FormControl>
                         <Input
                           className=" bg-gray-100/5 text-gray-50/70 border-[1px] border-gray-50/10 placeholder:text-gray-50/40 focus:border-[#36B5B0]"
@@ -86,15 +94,17 @@ export default function Home() {
                 />
               </form>
             </Form>
-            <div className="w-full flex justify-between">
-              <Button className="w-[48%] bg-[#36B5B0] text-[#040D12] mt-2">
+            <div className="w-full flex justify-center">
+              <Button className="w-[40%] bg-[#36B5B0] text-[#040D12] mt-2 hover:text-label">
                 Sign in
               </Button>
-              <Button
-                variant={"outline"}
-                className=" w-[48%]  bg-transparent text-gray-50 mt-2"
-              >
-                Sign up
+            </div>
+            <div className="w-full text-label flex items-center">
+              {" "}
+              don't have an acount?{" "}
+              <Button variant={"link"} className="text-blue-500">
+                {" "}
+                <Link href={"/credential_signup"}>Sign up</Link>
               </Button>
             </div>
 
@@ -105,12 +115,12 @@ export default function Home() {
             </div>
             <div className="w-full flex justify-between ">
               <Button
-                className="bg-slate-300 w-[48%]  text-xl"
+                className="bg-slate-300 w-[48%]  text-xl hover:text-label"
                 onClick={() => signIn("google", { callbackUrl: "/home" })}
               >
                 <FcGoogle />
               </Button>
-              <Button className="bg-gray-300 w-[48%] text-xl text-slate-950">
+              <Button className="bg-gray-300 w-[48%] text-xl text-slate-950 hover:text-label">
                 <FaGithub />
               </Button>
             </div>

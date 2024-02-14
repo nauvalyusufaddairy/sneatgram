@@ -18,18 +18,33 @@ import { InputDesc } from "../ui/input-desc";
 import { Button } from "../ui/button";
 import { cvUpload } from "@/actions/credentialValidationUpload";
 import { FormError } from "../form-error";
+import { SpinnerLoading } from "../spinner";
+import { generateVeficationToken } from "@/lib/token";
 
 export const CredentialValidation = ({
   setLabelPointer,
   setSteps,
+  CVFData,
+  setCVFData,
 }: {
   setSteps: React.Dispatch<SetStateAction<Steps[]>>;
   setLabelPointer: React.Dispatch<SetStateAction<Steps>>;
+  CVFData: zod.infer<typeof CredentialValidationSchema>;
+  setCVFData: React.Dispatch<
+    SetStateAction<zod.infer<typeof CredentialValidationSchema>>
+  >;
 }) => {
   const [renderCount, setRenderCount] = useState(0);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [isPending, setTransition] = useTransition();
+  const initial: zod.infer<typeof CredentialValidationSchema> = {
+    confirmPassword: "",
+    email: "",
+    password: "",
+    username: "",
+  };
+  const [data, setData] = useState(initial);
 
   const onSubmit = (values: zod.infer<typeof CredentialValidationSchema>) => {
     console.log("onsubmittttt", values);
@@ -37,15 +52,15 @@ export const CredentialValidation = ({
     setSuccess("");
     setTransition(() => {
       cvUpload(values).then((v: any) => {
-        console.log("hahahah anjay ", v);
-        if (v?.error) {
-          console.log("hahahah anjay xdgsdfgsdf ", v?.error);
-          setError(v.error);
+        if (v) {
+          console.log("cvUpload success", v);
+          setCVFData(values);
+          setSteps((prev) => [...prev, "Email confirmation"]);
+          setLabelPointer("Email confirmation");
+          generateVeficationToken(values.email);
         } else {
-          setError("");
-          console.log("hahahah xdgsdfgsdf ", v);
-          // setSteps((prev) => [...prev, "Email confirmation"]);
-          // setLabelPointer("Email confirmation");
+          console.log("cvUpload failed", v);
+          setCVFData(values);
         }
       });
     });
@@ -54,10 +69,10 @@ export const CredentialValidation = ({
   const form = useForm<zod.infer<typeof CredentialValidationSchema>>({
     resolver: zodResolver(CredentialValidationSchema),
     defaultValues: {
-      confirmPassword: "",
-      email: "",
-      password: "",
-      username: "",
+      confirmPassword: CVFData.confirmPassword,
+      email: CVFData.email,
+      password: CVFData.password,
+      username: CVFData.username,
     },
     mode: "onTouched",
   });
@@ -194,19 +209,29 @@ export const CredentialValidation = ({
               </FormItem>
             )}
           />{" "}
-          <div className="w-[50%] flex justify-center items-center">
-            {" "}
+          <div className="w-[50%] flex justify-center ">
             <Button
               className="w-24 hover:cursor-pointer disabled:cursor-not-allowed"
               variant={"sneatgram"}
               type="submit"
               disabled={!form.formState.isValid}
             >
-              Next
+              {isPending ? "Uploading" : "Next"}
+
+              {
+                <div>
+                  {" "}
+                  <SpinnerLoading
+                    variant={"ligh"}
+                    size={"sm"}
+                    isPending={isPending}
+                  />{" "}
+                </div>
+              }
             </Button>
-            <div className="w-[50%]">
-              <FormError message={error} />
-            </div>
+          </div>
+          <div className="w-[50%]">
+            <FormError message={error} />
           </div>
         </form>
       </Form>

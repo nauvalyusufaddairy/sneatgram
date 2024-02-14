@@ -7,10 +7,11 @@ const spinnerVariant = cva("w-8 h-8 text-gray-200 animate-spin", {
     variant: {
       default: "dark:text-gray-600 fill-blue-600",
       dark: "text-label fill-bg10",
+      ligh: "fill-bg60",
     },
     size: {
       default: "w-8 h-8",
-      sm: "w-6 h-6",
+      sm: "w-[14px] h-[14px] ml-2",
     },
   },
   defaultVariants: {

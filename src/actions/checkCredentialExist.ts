@@ -1,6 +1,7 @@
 "use server";
 
-import { getUserByEmail, findAllEmail } from "@/data/users";
+import { getUserByEmail, findAllEmail, getUserByUsername } from "@/data/users";
+import prisma from "@/lib/dbConnect";
 
 type CredentialStatus = {
   success?: string;
@@ -11,15 +12,20 @@ export const getEmail = async (
   email: string,
   customErrorMessage?: string | null,
   customSuccessMessage?: string
-): Promise<CredentialStatus> => {
+) => {
   const user = await getUserByEmail(email);
 
   if (user) {
-    return {
-      error: customErrorMessage || "email is already in use",
-      success: "",
-    };
+    return user;
   } else {
-    return { error: "", success: customSuccessMessage || "oke sukses" };
+    return null;
+  }
+};
+export const getUsername = async (username: string) => {
+  const user = await getUserByUsername(username);
+  if (user) {
+    return user;
+  } else {
+    return null;
   }
 };

@@ -4,7 +4,7 @@ type FindUserStatus = {
   error: string;
 };
 export const getUserByEmail = async (email: string) => {
-  console.log("im hits");
+  console.log("im hit");
   try {
     const user = await prisma.user.findUnique({ where: { email } });
     if (user) {
@@ -19,4 +19,13 @@ export const getUserByEmail = async (email: string) => {
 export const findAllEmail = async () => {
   const data = await prisma.user.findMany();
   return data;
+};
+
+export const getUserByUsername = async (username: string) => {
+  const data = await prisma.user.findUnique({ where: { username } });
+  if (data) {
+    return data;
+  } else {
+    return null;
+  }
 };

@@ -13,18 +13,16 @@ export const cvUpload = async (
     const { username, email, password } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    await prisma.user
-      .create({
-        data: {
-          email: email,
-          password: hashedPassword,
-          username,
-        },
-      })
-      .then((v: any) => {
-        console.log("user created", v);
-      });
+    const user = await prisma.user.create({
+      data: {
+        email: email,
+        password: hashedPassword,
+        username,
+      },
+    });
+    return user;
   } catch (e) {
     console.log("erorororororororrororororororororo", e);
+    return null;
   }
 };

@@ -1,4 +1,6 @@
 "use state";
+import * as zod from "zod";
+import { CredentialValidationSchema } from "@/lib/schemas";
 import { Arrow } from "./arrow";
 import { CredentialValidation } from "./credential-validation-form";
 
@@ -7,11 +9,17 @@ export const Forms = ({
   labelPointer,
   setLabelPointer,
   setSteps,
+  CVFData,
+  setCVFData,
 }: {
   setSteps: React.Dispatch<React.SetStateAction<Steps[]>>;
   steps: Steps[];
   labelPointer: Steps;
   setLabelPointer: React.Dispatch<React.SetStateAction<Steps>>;
+  CVFData: zod.infer<typeof CredentialValidationSchema>;
+  setCVFData: React.Dispatch<
+    React.SetStateAction<zod.infer<typeof CredentialValidationSchema>>
+  >;
 }) => {
   return (
     <div className=" hidden md:block lg:block xl:block 2xl:block">
@@ -65,6 +73,8 @@ export const Forms = ({
               <CredentialValidation
                 setLabelPointer={setLabelPointer}
                 setSteps={setSteps}
+                CVFData={CVFData}
+                setCVFData={setCVFData}
               />
             )}
           </div>

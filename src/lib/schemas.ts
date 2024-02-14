@@ -1,7 +1,6 @@
 import * as zod from "zod";
-import throttle from "lodash.throttle";
 
-import { getEmail } from "@/actions/checkCredentialExist";
+import { getEmail, getUsername } from "@/actions/checkCredentialExist";
 import debounce from "lodash.debounce";
 
 export type EmailAlreadyTakenError = string | undefined;
@@ -9,10 +8,22 @@ export type EmailAlreadyTakenError = string | undefined;
 const checkEmailAvailability = debounce(
   (email: string) =>
     getEmail(email).then((v) => {
-      if (v.error) {
-        return null;
-      } else {
+      if (v) {
+        console.log("email", v);
         return v;
+      } else {
+        return null;
+      }
+    }),
+  1000
+);
+const checkUsernameAvailability = debounce(
+  (email: string) =>
+    getUsername(email).then((v) => {
+      if (v) {
+        return v;
+      } else {
+        return null;
       }
     }),
   1000
@@ -24,8 +35,37 @@ export const LoginSchema = zod.object({
 
 export const CredentialValidationSchema = zod
   .object({
-    email: zod.string().email(),
-    username: zod.string().min(1, { message: "username cannot be empty" }),
+    email: zod
+      .string()
+      .email()
+      .refine(
+        async (email) => {
+          const checkEmail = await checkEmailAvailability(email);
+
+          if (checkEmail) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+        {
+          message: "email is already in use",
+        }
+      ),
+    username: zod
+      .string()
+      .min(1, { message: "username cannot be empty" })
+      .refine(
+        async (username) => {
+          const data = await checkUsernameAvailability(username);
+          if (data) {
+            return false;
+          } else {
+            return true;
+          }
+        },
+        { message: "username is already in use" }
+      ),
     password: zod.string().min(6),
     confirmPassword: zod.string().min(6),
   })
@@ -41,21 +81,7 @@ export const CredentialValidationSchema = zod
       path: ["confirmPassword"],
     }
   )
-  .refine(
-    async (email) => {
-      const checkEmail = await checkEmailAvailability(email.email);
 
-      if (checkEmail === null) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    {
-      message: "email is already taken" as EmailAlreadyTakenError,
-      path: ["email"],
-    }
-  )
   .refine(
     (str) => {
       console.log("str", str);
