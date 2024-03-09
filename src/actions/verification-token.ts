@@ -12,7 +12,7 @@ export const getVeficationTokenByToken = async (token: string) => {
   }
 };
 
-export const getVerificationToken = async (email: string) => {
+export const getVerificationTokenByEmail = async (email: string) => {
   const verificationToken = await prisma.verificationToken.findFirst({
     where: { email },
   });

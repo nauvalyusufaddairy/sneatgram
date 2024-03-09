@@ -5,6 +5,8 @@ import { Arrow } from "@/components/credentialSignup/arrow";
 import { Forms } from "@/components/credentialSignup/form-card";
 import React, { useState } from "react";
 import { CredentialValidationSchema } from "@/lib/schemas";
+import { CredentialSignupProvider } from "@/context/credential-signup-context";
+import { SignupForm } from "@/components/signup-form";
 
 export default function CredentialSignup() {
   const [labelPointer, setLabelPointer] = useState<Steps>(
@@ -26,7 +28,7 @@ export default function CredentialSignup() {
   console.log("label : ", labelPointer, "----", "steps : ", steps);
   return (
     <div className="w-screen h-screen bg-bg60 p-0  ">
-      <Forms
+      {/* <Forms
         CVFData={CVFData}
         setCVFData={setCVFData}
         setSteps={setSteps}
@@ -34,6 +36,10 @@ export default function CredentialSignup() {
         labelPointer={labelPointer}
         setLabelPointer={setLabelPointer}
       />
+      */}
+      <CredentialSignupProvider>
+        <SignupForm />
+      </CredentialSignupProvider>
     </div>
   );
 }

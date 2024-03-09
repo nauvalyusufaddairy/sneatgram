@@ -3,6 +3,7 @@ import * as zod from "zod";
 import { CredentialValidationSchema } from "@/lib/schemas";
 import { Arrow } from "./arrow";
 import { CredentialValidation } from "./credential-validation-form";
+import EmailVerificationForm from "./email-verification-form";
 
 export const Forms = ({
   steps,
@@ -66,17 +67,19 @@ export const Forms = ({
             label="Personal informations"
           />
         </div>
-        {/* panel */}
+        {/* form panel */}
         <div className="w-[80%] _lg:h-[calc(100vh-77px)] _md:h-[calc(100vh-64px)] ">
           <div className="w-full">
-            {labelPointer === "Credential validations" && (
+            {/* {labelPointer === "Credential validations" && (
               <CredentialValidation
                 setLabelPointer={setLabelPointer}
                 setSteps={setSteps}
                 CVFData={CVFData}
                 setCVFData={setCVFData}
               />
-            )}
+            )} */}
+            {/* {labelPointer === "Email confirmation" && <EmailVerificationForm />} */}
+            <EmailVerificationForm />
           </div>
         </div>
       </div>

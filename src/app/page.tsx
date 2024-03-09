@@ -104,7 +104,7 @@ export default function Home() {
               dont have an acount?{" "}
               <Button variant={"link"} className="text-blue-500">
                 {" "}
-                <Link href={"/credential_signup"}>Sign up</Link>
+                <Link href={"/credential-signup"}>Sign up</Link>
               </Button>
             </div>
 

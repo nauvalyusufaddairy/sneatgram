@@ -751,11 +751,9 @@ function LgXlMd({
   type Selectors = "search" | "notification" | "create" | "";
   const [expandsPanel, setexpandsPanel] = useState(false);
   const [selector, setSelector] = useState<Selectors>("");
-  const [counter, setCounter] = useState(0);
-  const [postPanel, setPostPanel] = useState(false);
 
   const handleExpandPanel = (selector: Selectors) => {
-    console.log("expands panel", expandsPanel);
+    console.log("expands panel", expandsPanel, "- ", selector);
     setexpandsPanel(!expandsPanel);
     setSelector(selector);
   };
@@ -802,7 +800,10 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("home")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("home")}
+                onTapStart={() => {
+                  setWhileTapEvent("home");
+                  handleExpandPanel("");
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-[50px] h-[40px] flex justify-center items-center "
               >
@@ -849,9 +850,8 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("search")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onClick={() => {
-                  setWhileTapEvent("search");
-                  handleExpandPanel("search");
+                onTapStart={() => {
+                  setexpandsPanel(false);
                 }}
                 whileHover={{ cursor: "pointer" }}
                 // onClick={() => handleExpandPanel("search")}
@@ -900,7 +900,10 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("explore")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("explore")}
+                onTapStart={() => {
+                  setWhileTapEvent("explore");
+                  setexpandsPanel(false);
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-[50px] h-[50px]  flex justify-center items-center mt-2 "
               >
@@ -994,7 +997,9 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("messages")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("messages")}
+                onTapStart={() => {
+                  setWhileTapEvent("messages");
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-[50px] h-[50px] flex justify-center items-center mt-2 "
               >
@@ -1042,10 +1047,12 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("notification")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("notification")}
+                onTapStart={() => {
+                  setWhileTapEvent("notification");
+                  setexpandsPanel(false);
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-[50px] h-[50px]  flex justify-center items-center mt-2 "
-                onClick={() => handleExpandPanel("notification")}
               >
                 {/* onHover  */}
                 {whileTapEvent === "notification" ? (
@@ -1090,7 +1097,10 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("create")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("create")}
+                onTapStart={() => {
+                  setWhileTapEvent("create");
+                  setexpandsPanel(false);
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-[50px] h-[50px] flex justify-center items-center mt-2 "
               >
@@ -1202,10 +1212,12 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("search")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("search")}
+                onTapStart={() => {
+                  setWhileTapEvent("search");
+                  handleExpandPanel("search");
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-full h-[50px] mt-2 select-none"
-                onClick={() => handleExpandPanel("search")}
               >
                 {/* onHover  */}
                 {whileTapEvent === "search" ? (
@@ -1403,10 +1415,12 @@ function LgXlMd({
               <motion.div
                 onHoverStart={() => setWhileHoverEvent("notification")}
                 onHoverEnd={() => setWhileHoverEvent("")}
-                onTapStart={() => setWhileTapEvent("notification")}
+                onTapStart={() => {
+                  setWhileTapEvent("notification");
+                  handleExpandPanel("notification");
+                }}
                 whileHover={{ cursor: "pointer" }}
                 className="w-full h-[50px] mt-2 select-none"
-                onClick={() => handleExpandPanel("notification")}
               >
                 {/* onHover  */}
                 {whileTapEvent === "notification" ? (

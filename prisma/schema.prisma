@@ -39,11 +39,11 @@ model User {
   accounts         Account[]
   isVerifiedPerson Boolean   @default(false)
 
-  followed     String[]
-  following    String[]
-  dateOfBirth  String        @default("")
-  bio          String        @default("")
-  hobbies      String        @default("")
+  followed    String[]
+  following   String[]
+  dateOfBirth String   @default("")
+  bio         String   @default("")
+
   interestedAt InterestedAt?
   password     String?
 }

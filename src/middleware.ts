@@ -1,34 +1,28 @@
-import authConfig from "./auth.config";
+import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
-const { auth } = NextAuth(authConfig);
-import {
-  privateRoutes,
-  publicRoutes,
-  nextAuthPrefix,
-  DEFAULT_REDIRECT,
-} from "./routes";
+import { privateRoutes, publicRoutes, nextAuthPrefix } from "@/routes";
 
+const { auth } = NextAuth({ ...authConfig });
 export default auth((req) => {
   const { nextUrl } = req;
+  const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
+  const isPrivateRoutes = privateRoutes.includes(nextUrl.pathname);
+  const isNextauthApiPrefix = nextUrl.pathname.startsWith(nextAuthPrefix);
   const isLoggedIn = !!req.auth;
 
-  const isPriveteRoutes = privateRoutes.includes(nextUrl.pathname);
-  const isPublicRoutes = publicRoutes.includes(nextUrl.pathname);
-  const isNextauthPrefix = nextUrl.pathname.startsWith(nextAuthPrefix);
-  console.log("base url", nextUrl.pathname);
-  if (isNextauthPrefix) {
+  if (isNextauthApiPrefix) {
     return null;
   }
-  if (isPublicRoutes) {
-    if (isLoggedIn) {
-      return Response.redirect(new URL("/home", nextUrl));
+  if (isPrivateRoutes) {
+    if (!isLoggedIn) {
+      return Response.redirect(new URL("/", nextUrl));
     }
     return null;
   }
-  if (isPriveteRoutes) {
-    console.log("isssssss", isLoggedIn);
-    if (!isLoggedIn) {
-      return Response.redirect(new URL("/", nextUrl));
+
+  if (isPublicRoutes) {
+    if (isLoggedIn) {
+      return Response.redirect(new URL("/home", nextUrl));
     }
     return null;
   }
