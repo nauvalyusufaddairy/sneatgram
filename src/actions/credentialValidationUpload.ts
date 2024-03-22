@@ -9,7 +9,7 @@ export const cvUpload = async (
 ) => {
   try {
     const data = await CredentialValidationSchema.parseAsync(values);
-    console.log("user createdikkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk");
+
     const { username, email, password } = data;
     const hashedPassword = await bcrypt.hash(password, 10);
 

@@ -31,7 +31,9 @@ export type CredentialSignupContextProps = {
   >;
 };
 export const CredentialSignupContext =
-  React.createContext<CredentialSignupContextProps | null>(null);
+  React.createContext<CredentialSignupContextProps>(
+    {} as CredentialSignupContextProps
+  );
 
 export const CredentialSignupProvider = ({
   children,
