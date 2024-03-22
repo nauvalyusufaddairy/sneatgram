@@ -9,7 +9,7 @@ const checkEmailAvailability = debounce(
   (email: string) =>
     getEmail(email).then((v) => {
       if (v) {
-        console.log("email", v);
+        console.log("emailsssss", v);
         return v;
       } else {
         return null;
@@ -93,3 +93,16 @@ export const CredentialValidationSchema = zod
     },
     { message: "invalid username", path: ["username"] }
   );
+
+export const EmailConfirmationSchema = zod.object({
+  token: zod
+    .string()
+    .min(6, { message: "string length min is 6" })
+    .max(6, { message: "max string length is 6" }),
+});
+
+export const EmailSchema = zod.object({
+  email: zod.string().email(),
+  subject: zod.string().min(1),
+  message: zod.string().min(1),
+});

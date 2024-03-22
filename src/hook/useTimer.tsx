@@ -1,54 +1,50 @@
-/**
- *
- * @param initialTime current time in UTC format
- * @param expireTime in miliseconds
- */ import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 
-interface StopwatchTime {
+interface TimerState {
   hours: number;
   minutes: number;
   seconds: number;
+  remainingTime?: number;
+  setReset: Dispatch<SetStateAction<boolean>>;
 }
 
-const useStopwatch = (
-  initialTime: number = 0
-): [StopwatchTime, () => void, () => void, boolean] => {
-  const [time, setTime] = useState<number>(initialTime);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
-
+const useTimer = (
+  initialTime: number,
+  timeoutCallback?: () => void
+): TimerState => {
+  const [remainingTime, setRemainingTime] = useState<number>(initialTime);
+  const [reset, setReset] = useState(false);
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (isRunning) {
+    if (remainingTime > 0) {
       timer = setInterval(() => {
-        setTime((prevTime) => prevTime + 1);
-      }, 1000);
-    } else {
-      //@ts-ignore
-      clearInterval(timer);
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 10);
     }
 
-    return () => clearInterval(timer);
-  }, [isRunning]);
+    if (reset) {
+      // @ts-ignore
+      clearInterval(timer);
+    }
+    if (remainingTime === 0 && timeoutCallback) {
+      timeoutCallback();
+    }
+    return () => {
+      clearInterval(timer);
+    };
+  }, [remainingTime, reset]);
 
-  const handleStartStop = () => {
-    setIsRunning(!isRunning);
-  };
+  const hours = Math.floor(remainingTime / 360000);
+  // Minutes calculation
+  const minutes = Math.floor((remainingTime % 360000) / 6000);
+  // Seconds calculation
+  const seconds = Math.floor((remainingTime % 6000) / 100);
+  if (remainingTime === 0 && timeoutCallback) {
+    timeoutCallback();
+  }
 
-  const handleReset = () => {
-    setTime(initialTime);
-    setIsRunning(false);
-  };
-
-  const formatTime = (timeInSeconds: number): StopwatchTime => {
-    const hours = Math.floor(timeInSeconds / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
-    const seconds = timeInSeconds % 60;
-
-    return { hours, minutes, seconds };
-  };
-
-  return [formatTime(time), handleStartStop, handleReset, isRunning];
+  return { hours, minutes, seconds, remainingTime, setReset };
 };
 
-export default useStopwatch;
+export default useTimer;
