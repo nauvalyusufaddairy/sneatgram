@@ -101,8 +101,13 @@ export const EmailConfirmationSchema = zod.object({
     .max(6, { message: "max string length is 6" }),
 });
 
-export const EmailSchema = zod.object({
-  email: zod.string().email(),
-  subject: zod.string().min(1),
-  message: zod.string().min(1),
+export const PersonalInformationsSchema = zod.object({
+  name: zod.string().min(1, { message: "name is required" }),
+  birthDate: zod.object({
+    year: zod.string(),
+    month: zod.string(),
+    day: zod.string(),
+  }),
+
+  gender: zod.string(),
 });

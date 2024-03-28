@@ -41,9 +41,9 @@ export const CredentialSignupProvider = ({
   children: React.ReactNode;
 }) => {
   const [labelPointer, setLabelPointer] = React.useState<Steps>(
-    "Credential validations"
+    "Personal informations"
   );
-  const initialsteps: Steps[] = ["Credential validations"];
+  const initialsteps: Steps[] = ["Personal informations"];
   const [steps, setSteps] = React.useState<Steps[]>(initialsteps);
   const initialUserData: zod.infer<typeof CredentialValidationSchema> = {
     confirmPassword: "",

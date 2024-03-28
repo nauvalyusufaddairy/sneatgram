@@ -1,5 +1,21 @@
 "use client";
 import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
   CredentialSignupContext,
   CredentialSignupProvider,
 } from "@/context/credential-signup-context";
@@ -8,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import {
   CredentialValidationSchema,
   EmailConfirmationSchema,
+  PersonalInformationsSchema,
 } from "@/lib/schemas";
 import * as zod from "zod";
 import {
@@ -43,18 +60,17 @@ import { cvUpload } from "@/actions/credentialValidationUpload";
 
 import { generateVeficationToken } from "@/lib/token";
 import { useTimer } from "react-timer-hook";
-import { useReducedMotionConfig } from "framer-motion";
+
 import { cn } from "@/lib/utils";
 import { FormSuccess } from "./form-success";
 import { verifyToken } from "@/actions/verification-token";
-import { tree } from "next/dist/build/templates/app-page";
 
 export function SignupForms() {
   return (
     <CredentialSignupProvider>
       <CredentialValidation />
       <EmailConfirmation />
-      <PersonalInformation />
+      <PersonalInformations />
     </CredentialSignupProvider>
   );
 }
@@ -339,11 +355,28 @@ const EmailConfirmation = () => {
                   <FormItem>
                     <FormLabel></FormLabel>
                     <FormControl className=" select-none">
-                      <Input
+                      {/* <Input
                         {...field}
                         placeholder="verification code"
                         className=" bg-inputBg text-inputTextColor border-[1px] border-inputBorder  focus:border-[1px] focus:border-bg10/40"
-                      />
+                      /> */}
+
+                      <div className="w-full flex justify-center">
+                        {" "}
+                        <InputOTP maxLength={6} {...field}>
+                          <InputOTPGroup>
+                            <InputOTPSlot index={0} />
+                            <InputOTPSlot index={1} />
+                            <InputOTPSlot index={2} />
+                          </InputOTPGroup>
+                          <InputOTPSeparator />
+                          <InputOTPGroup>
+                            <InputOTPSlot index={3} />
+                            <InputOTPSlot index={4} />
+                            <InputOTPSlot index={5} />
+                          </InputOTPGroup>
+                        </InputOTP>
+                      </div>
                     </FormControl>
                     <InputDesc desc="Enter the code sent to your registered email to ensure secure access to your account. Code expires in 5 minutes. Resend button available when time is up." />
                   </FormItem>
@@ -387,14 +420,214 @@ const EmailConfirmation = () => {
   );
 };
 
-const PersonalInformation = () => {
+const PersonalInformations = () => {
+  const {
+    CVFData,
+    setCVFData,
+    labelPointer,
+    setLabelPointer,
+    setSteps,
+    steps,
+  } = React.useContext(CredentialSignupContext);
+  const [isPending, setTransition] = React.useTransition();
+  const [error, setError] = React.useState("");
+  const daysOfWeek: string[] = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const months: string[] = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  const form = useForm<zod.infer<typeof PersonalInformationsSchema>>({
+    resolver: zodResolver(PersonalInformationsSchema),
+    defaultValues: {
+      name: "",
+      gender: "",
+      birthDate: {
+        day: new Date().getDay().toString(),
+        month: new Date().getMonth().toString(),
+        year: new Date().getFullYear().toString(),
+      },
+    },
+    mode: "all",
+  });
+  const onSubmit = (e: zod.infer<typeof PersonalInformationsSchema>) => {
+    console.log("PersonalInformations", e);
+  };
   return (
     <SignupForm name="Personal informations">
       <SignupFormDot />
       <SignupFormField>
         <SignupFormLabel />
-        <SignupFormContents className="h-[300px]"></SignupFormContents>
+        <SignupFormContents className="h-fit">
+          {" "}
+          {/* Email */}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                name="name"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" text-label flex items-center ">
+                      <p>Name</p>
+                      {form.formState.errors.name && (
+                        <div className=" ">
+                          <FormMessage className=" rounded-md ml-4 w-fit px-3 py-1 bg-red-500/10 mr-4" />
+                        </div>
+                      )}
+                    </FormLabel>
+                    <div className="w-full flex">
+                      <FormControl className="w-full flex flex-col gap-1">
+                        <Input
+                          placeholder="John Doe"
+                          {...field}
+                          className=" bg-inputBg text-inputTextColor border-[1px] border-inputBorder focus:border-[1px] focus:border-bg10/40 "
+                        />
+                      </FormControl>
+                    </div>
+
+                    <InputDesc desc="Input your full name," />
+                  </FormItem>
+                )}
+              />
+              {/* Username */}
+              <FormField
+                name="birthDate"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className=" text-label flex items-center">
+                      <p>Birth date</p>{" "}
+                      {form.formState.errors.gender && (
+                        <div className=" ">
+                          <FormMessage className=" rounded-md ml-4 w-fit px-3 py-1 bg-red-500/10 mr-4" />
+                        </div>
+                      )}
+                    </FormLabel>
+                    <div className="w-full flex">
+                      <FormControl className="w-full flex  gap-1">
+                        <Select>
+                          <SelectTrigger>
+                            <SelectValue placeholder={field.value.day} />
+                          </SelectTrigger>
+                        </Select>
+                      </FormControl>
+                    </div>
+
+                    <InputDesc desc="Usernames are only allowed to contain alphanumeric characters and underscores but must not contain whitespace" />
+                  </FormItem>
+                )}
+              />
+              {/* password  */}
+
+              <div className="w-full flex justify-center ">
+                <Button
+                  className="w-24 hover:cursor-pointer disabled:cursor-not-allowed"
+                  variant={"sneatgram"}
+                  type="submit"
+                  disabled={
+                    !form.formState.isValid ||
+                    labelPointer !== "Credential validations"
+                  }
+                >
+                  {isPending ? "Uploading" : "Submit"}
+
+                  {
+                    <div>
+                      {" "}
+                      <SpinnerLoading
+                        variant={"ligh"}
+                        size={"sm"}
+                        isPending={isPending}
+                      />{" "}
+                    </div>
+                  }
+                </Button>
+              </div>
+              <div className="w-[50%]">
+                <FormError message={error} />
+              </div>
+            </form>
+          </Form>
+        </SignupFormContents>
       </SignupFormField>
     </SignupForm>
   );
 };
+// const PersonalInformation = () => {
+//   const {
+//     CVFData,
+//     setCVFData,
+//     labelPointer,
+//     setLabelPointer,
+//     setSteps,
+//     steps,
+//   } = React.useContext(CredentialSignupContext);
+//   const [isPending, setTransition] = React.useTransition();
+//   const [error, setError] = React.useState("");
+
+//   const form = useForm<zod.infer<typeof PersonalInformationsSchema>>({
+//     resolver: zodResolver(PersonalInformationsSchema),
+//     defaultValues: {
+//       birthDate: undefined,
+//       gender: "",
+
+//       name: "",
+//     },
+//     mode: "all",
+//   });
+//   const onSubmit = (e: zod.infer<typeof PersonalInformationsSchema>) => {
+//     console.log("lalalala", e);
+//   };
+
+//   return (
+//     <SignupForm name="Personal informations">
+//       <SignupFormDot />
+//       <SignupFormField>
+//         <SignupFormLabel />
+//         <SignupFormContents className="h-[300px]">
+//           <Form {...form}>
+//             <form onSubmit={form.handleSubmit(onSubmit)}>
+//               <FormField
+//                 name="name"
+//                 control={form.control}
+//                 render={({ field }) => (
+//                   <FormItem>
+//                     <FormLabel>
+//                       <p>Full name</p>
+//                     </FormLabel>
+//                     <FormControl>
+//                       <Input
+//                         {...field}
+//                         placeholder="john doe"
+//                         className="bg-inputBg text-inputTextColor border-[1px] border-inputBorder  focus:border-[1px] focus:border-bg10/40"
+//                       />
+//                     </FormControl>
+//                   </FormItem>
+//                 )}
+//               />
+//             </form>
+//           </Form>
+//         </SignupFormContents>
+//       </SignupFormField>
+//     </SignupForm>
+//   );
+// };

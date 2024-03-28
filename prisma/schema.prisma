@@ -38,13 +38,13 @@ model User {
   username         String?   @unique
   accounts         Account[]
   isVerifiedPerson Boolean   @default(false)
+  gender           Gender
+  followed         String[]
+  following        String[]
+  birthDate        String    @default("")
+  bio              String    @default("")
 
-  followed    String[]
-  following   String[]
-  dateOfBirth String   @default("")
-  bio         String   @default("")
-
-  interestedAt InterestedAt?
+  interestedAt String[]
   password     String?
 }
 
@@ -57,10 +57,7 @@ model VerificationToken {
   @@unique([email, token])
 }
 
-enum InterestedAt {
-  SCIENCE
-  PROGRAMMING
-  MOVIE
-  SPORTS
-  FOOTBALL
+enum Gender {
+  MALE
+  FEMALE
 }
