@@ -1,15 +1,4 @@
-"use client";
-
 import { SignupForms } from "@/components/signup-form";
-import { useRef, useImperativeHandle } from "react";
-const Child = () => {
-  const childRef = useRef<HTMLInputElement>({} as HTMLInputElement);
-  useImperativeHandle(childRef, () => ({
-    getValue: childRef.current.value || "",
-  }));
-
-  return <input ref={childRef} />;
-};
 
 export default function CredentialSignup() {
   return (

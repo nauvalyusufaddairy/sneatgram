@@ -18,6 +18,7 @@ export const cvUpload = async (
         email: email,
         password: hashedPassword,
         username,
+        gender: "MALE", // for testing purpose
       },
     });
     return user;
