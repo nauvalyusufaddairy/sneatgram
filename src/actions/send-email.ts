@@ -25,7 +25,7 @@ export default async function sendEmail(email: string, token: string) {
         Data: "email verification service",
       },
     },
-    Source: "no-reply@nauvalyusufaddairy.com", // Replace with your sender email address
+    Source: "no-reply@sneatgram.fullbrigth.com", // Replace with your sender email address
   };
   try {
     const command = new SendEmailCommand(params);

@@ -1,24 +1,6 @@
 import { CredentialValidationSchema } from "@/lib/schemas";
-import React from "react";
+import React, { useState } from "react";
 import * as zod from "zod";
-
-/*
-  const [labelPointer, setLabelPointer] = useState<Steps>(
-    "Credential validations"
-  );
-  const initialsteps: Steps[] = ["Credential validations"];
-  const [steps, setSteps] = useState<Steps[]>(initialsteps);
-  const initialUserData: z.infer<typeof CredentialValidationSchema> = {
-    confirmPassword: "",
-    email: "",
-    password: "",
-    username: "",
-  };
- 
- 
-const [CVFData, setCVFData] = useState(initialUserData);
-
-*/
 
 export type CredentialSignupContextProps = {
   labelPointer: Steps;
@@ -29,6 +11,8 @@ export type CredentialSignupContextProps = {
   setCVFData: React.Dispatch<
     React.SetStateAction<zod.infer<typeof CredentialValidationSchema>>
   >;
+  setUserRecordId: React.Dispatch<React.SetStateAction<string>>;
+  userRecordId: string;
 };
 export const CredentialSignupContext =
   React.createContext<CredentialSignupContextProps>(
@@ -41,9 +25,9 @@ export const CredentialSignupProvider = ({
   children: React.ReactNode;
 }) => {
   const [labelPointer, setLabelPointer] = React.useState<Steps>(
-    "Personal informations"
+    "Credential validations"
   );
-  const initialsteps: Steps[] = ["Personal informations"];
+  const initialsteps: Steps[] = ["Credential validations"];
   const [steps, setSteps] = React.useState<Steps[]>(initialsteps);
   const initialUserData: zod.infer<typeof CredentialValidationSchema> = {
     confirmPassword: "",
@@ -52,6 +36,7 @@ export const CredentialSignupProvider = ({
     username: "",
   };
 
+  const [userRecordId, setUserRecordId] = useState<string>("");
   const [CVFData, setCVFData] = React.useState(initialUserData);
   return (
     <CredentialSignupContext.Provider
@@ -62,6 +47,8 @@ export const CredentialSignupProvider = ({
         steps,
         setSteps,
         setCVFData,
+        setUserRecordId,
+        userRecordId,
       }}
     >
       {children}

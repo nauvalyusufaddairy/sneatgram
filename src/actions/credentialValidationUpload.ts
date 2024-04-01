@@ -1,5 +1,8 @@
 "use server";
-import { CredentialValidationSchema } from "@/lib/schemas";
+import {
+  CredentialValidationSchema,
+  PersonalInformationsSchema,
+} from "@/lib/schemas";
 import * as zod from "zod";
 import * as bcrypt from "bcryptjs";
 import prisma from "@/lib/dbConnect";
@@ -24,6 +27,26 @@ export const cvUpload = async (
     return user;
   } catch (e) {
     console.log("erorororororororrororororororororo", e);
+    return null;
+  }
+};
+
+export const personalInformationUpload = async (
+  e: zod.infer<typeof PersonalInformationsSchema>,
+  id: string
+) => {
+  const data = await PersonalInformationsSchema.parseAsync(e);
+  const userData = await prisma.user.update({
+    where: { id },
+    data: {
+      gender: data.gender,
+      birthDate: data.birthDate,
+      name: data.name,
+    },
+  });
+  if (userData) {
+    return userData;
+  } else {
     return null;
   }
 };

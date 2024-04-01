@@ -103,11 +103,7 @@ export const EmailConfirmationSchema = zod.object({
 
 export const PersonalInformationsSchema = zod.object({
   name: zod.string().min(1, { message: "name is required" }),
-  birthDate: zod.object({
-    year: zod.string(),
-    month: zod.string(),
-    day: zod.string(),
-  }),
 
-  gender: zod.string(),
+  gender: zod.enum(["MALE", "FEMALE"]),
+  birthDate: zod.date(),
 });

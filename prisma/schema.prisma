@@ -38,10 +38,10 @@ model User {
   username         String?   @unique
   accounts         Account[]
   isVerifiedPerson Boolean   @default(false)
-  gender           Gender
+  gender           Gender    @default(MALE)
   followed         String[]
   following        String[]
-  birthDate        String    @default("")
+  birthDate        DateTime  @default(now())
   bio              String    @default("")
 
   interestedAt String[]
