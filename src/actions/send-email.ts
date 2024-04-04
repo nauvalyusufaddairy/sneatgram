@@ -6,8 +6,8 @@ export default async function sendEmail(email: string, token: string) {
   const sesClient = new SESClient({
     region: "us-east-1",
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      accessKeyId: process.env.AAWS_ACCESS_ID!,
+      secretAccessKey: process.env.AAWS_SECRET_ACCESS_KEY!,
     },
   });
 
