@@ -1,3 +1,20 @@
+// import sendEmail from "@/actions/send-email";
+// import { Button } from "@/components/ui/button";
+
+// export default function Home() {
+//   return (
+//     <form
+//       action={async () => {
+//         "use server";
+//         const email = await sendEmail("nauvalyusufad@gmail.com", "lalalal");
+
+//         console.log("!=============email=================!", email);
+//       }}
+//     >
+//       <Button>email</Button>
+//     </form>
+//   );
+//}
 "use client";
 import * as zod from "zod";
 import { useForm } from "react-hook-form";
@@ -29,7 +46,6 @@ export default function Home() {
   });
 
   const onSubmit = (val: zod.infer<typeof LoginSchema>) => {
-    console.log("l===================================", val);
     signIn("credentials", {
       username: val.username,
       password: val.password,
@@ -38,18 +54,6 @@ export default function Home() {
     });
   };
   return (
-    // <Button
-    //   onClick={() =>
-    //     signIn("credentials", {
-    //       username: "rimpac",
-    //       password: "vargaz12",
-    //       redirect: true,
-    //       callbackUrl: "/home",
-    //     })
-    //   }
-    // >
-    //   login
-    // </Button>
     <div className=" bg-[#040D12] w-screen h-screen flex items-center justify-center">
       <div className=" _sm:w-[320px] _sm:h-[calc(320px*1.6)]  _md:w-[420px] _md:h-[calc(420px*1.3)] _lg:w-[480px] _lg:h-[calc(480px*1.3)] bg-bg30 rounded-md shadow-md shadow-gray-100/5">
         <div className="w-full h-full flex flex-col _lg:px-8 _lg:py-12 _sm:px-4 _sm:py-8    ">
@@ -120,69 +124,6 @@ export default function Home() {
                 </div>
               </form>
             </Form>
-            {/* <Form {...form}>
-              <form
-                onSubmit={(event) => {
-                  form.handleSubmit(onSubmit);
-                }}
-              >
-                <FormField
-                  control={form.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-gray-50/80">
-                        username
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className=" bg-gray-100/5 text-gray-50/70 border-[1px] border-gray-50/10 placeholder:text-gray-50/40 focus:border-[#36B5B0]"
-                          {...field}
-                          placeholder="username or email"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="w-full flex justify-between items-center">
-                        {" "}
-                        <FormLabel className="text-gray-50/80">
-                          password
-                        </FormLabel>
-                        <Button variant={"link"} className="text-blue-500">
-                          <Link href={"/"}> forgot password</Link>
-                        </Button>
-                      </div>
-
-                      <FormControl>
-                        <Input
-                          className=" bg-gray-100/5 text-gray-50/70 border-[1px] border-gray-50/10 placeholder:text-gray-50/40 focus:border-[#36B5B0]"
-                          {...field}
-                          placeholder="*********"
-                          type="password"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-               
-                <Button
-                  type="submit"
-                  className="w-[40%] bg-[#36B5B0] text-[#040D12] mt-4 hover:text-label"
-                >
-                  Sign in
-                </Button>
-             
-              </form>
-            </Form> */}
 
             <div className="w-full text-label flex items-center">
               {" "}

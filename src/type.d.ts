@@ -36,7 +36,7 @@ type Reel = {
   time: string;
   captions: string;
 };
-
+declare const loginService = (email: string, password: string) => Promise<User>;
 type User = {
   id: string;
   userName: string;
@@ -75,3 +75,28 @@ type Steps =
   | "Email confirmation"
   | "Personal informations"
   | "";
+
+declare module "react-timer-hook" {
+  interface TimerSettings {
+    autoStart?: boolean;
+    expiryTimestamp: Date | number;
+    onExpire?: () => void;
+  }
+
+  interface TimerResult {
+    totalSeconds: number;
+    seconds: number;
+    minutes: number;
+    hours: number;
+    days: number;
+    isRunning: boolean;
+    start: () => void;
+    pause: () => void;
+    resume: () => void;
+    restart: (newExpiryTimestamp: Date | number, autoStart?: boolean) => void;
+  }
+
+  export { TimerResult, TimerSettings };
+
+  export function useTimer(settings: TimerSettings): TimerResult;
+}
