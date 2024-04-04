@@ -94,7 +94,9 @@ function Calendar({
                 <SelectContent className="bg-inputBg text-inputTextColor border-[1px] border-inputBorder focus:border-[1px] focus:border-bg10/40">
                   <SelectGroup>
                     {monthsSelect.map((v, i) => (
-                      <SelectItem value={v.value}>{v.label}</SelectItem>
+                      <SelectItem key={i} value={v.value}>
+                        {v.label}
+                      </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
@@ -129,7 +131,9 @@ function Calendar({
                 <SelectContent className="bg-inputBg text-inputTextColor border-[1px] border-inputBorder focus:border-[1px] focus:border-bg10/40">
                   <SelectGroup>
                     {selectYears.map((v, i) => (
-                      <SelectItem value={v.value}>{v.label}</SelectItem>
+                      <SelectItem key={i} value={v.value}>
+                        {v.label}
+                      </SelectItem>
                     ))}
                   </SelectGroup>
                 </SelectContent>
