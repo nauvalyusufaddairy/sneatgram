@@ -461,7 +461,7 @@ const PersonalInformations = () => {
     setTransition(() => {
       personalInformationUpload(e, userRecordId).then((v) => {
         if (v) {
-          router.push("/home");
+          router.push("/");
         }
       });
     });

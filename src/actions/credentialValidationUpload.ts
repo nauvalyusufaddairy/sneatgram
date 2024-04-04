@@ -22,11 +22,11 @@ export const cvUpload = async (
         password: hashedPassword,
         username,
         gender: "MALE", // for testing purpose
+        emailVerified: new Date(),
       },
     });
     return user;
   } catch (e) {
-    console.log("erorororororororrororororororororo", e);
     return null;
   }
 };

@@ -9,7 +9,6 @@ const checkEmailAvailability = debounce(
   (email: string) =>
     getEmail(email).then((v) => {
       if (v) {
-        console.log("emailsssss", v);
         return v;
       } else {
         return null;
@@ -30,7 +29,7 @@ const checkUsernameAvailability = debounce(
 );
 export const LoginSchema = zod.object({
   password: zod.string().min(1),
-  username: zod.string(),
+  username: zod.string().min(1),
 });
 
 export const CredentialValidationSchema = zod
@@ -84,7 +83,6 @@ export const CredentialValidationSchema = zod
 
   .refine(
     (str) => {
-      console.log("str", str);
       const instagramUsernameRegex = /^[a-zA-Z0-9._]{1,30}$/;
       if (!instagramUsernameRegex.test(str.username)) {
         return false;

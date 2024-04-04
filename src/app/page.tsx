@@ -28,10 +28,28 @@ export default function Home() {
     mode: "all",
   });
 
-  const onSubmit = (val: any) => {
-    console.log("values", val);
+  const onSubmit = (val: zod.infer<typeof LoginSchema>) => {
+    console.log("l===================================", val);
+    signIn("credentials", {
+      username: val.username,
+      password: val.password,
+      redirect: true,
+      callbackUrl: "/home",
+    });
   };
   return (
+    // <Button
+    //   onClick={() =>
+    //     signIn("credentials", {
+    //       username: "rimpac",
+    //       password: "vargaz12",
+    //       redirect: true,
+    //       callbackUrl: "/home",
+    //     })
+    //   }
+    // >
+    //   login
+    // </Button>
     <div className=" bg-[#040D12] w-screen h-screen flex items-center justify-center">
       <div className=" _sm:w-[320px] _sm:h-[calc(320px*1.6)]  _md:w-[420px] _md:h-[calc(420px*1.3)] _lg:w-[480px] _lg:h-[calc(480px*1.3)] bg-bg30 rounded-md shadow-md shadow-gray-100/5">
         <div className="w-full h-full flex flex-col _lg:px-8 _lg:py-12 _sm:px-4 _sm:py-8    ">
@@ -41,7 +59,73 @@ export default function Home() {
           </h1>
           <div className="w-full mt-8 flex flex-col _sm:gap-2 _md:gap-4 _lg:gap-6  ">
             <Form {...form}>
-              <form onSubmit={() => form.handleSubmit(onSubmit)}>
+              <form
+                onSubmit={form.handleSubmit((e) => {
+                  onSubmit(e);
+                })}
+                className="space-y-4"
+              >
+                <FormField
+                  name="username"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-label">
+                        Username or Email
+                      </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="email or username"
+                          {...field}
+                          className=" bg-gray-100/5 text-gray-50/70 border-[1px] border-gray-50/10 placeholder:text-gray-50/40 focus:border-[#36B5B0]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  name="password"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <div className="w-full flex justify-between items-center">
+                        {" "}
+                        <FormLabel className="text-gray-50/80">
+                          Password
+                        </FormLabel>
+                        <Button variant={"link"} className="text-blue-500">
+                          <Link href={"/"}> Forgot password</Link>
+                        </Button>
+                      </div>
+                      <FormControl>
+                        <Input
+                          placeholder="password"
+                          {...field}
+                          className=" bg-gray-100/5 text-gray-50/70 border-[1px] border-gray-50/10 placeholder:text-gray-50/40 focus:border-[#36B5B0]"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="w-full flex justify-center ">
+                  <Button
+                    type="submit"
+                    className="w-[40%] bg-[#36B5B0] text-[#040D12] mt-4 hover:text-label"
+                  >
+                    Signin
+                  </Button>
+                </div>
+              </form>
+            </Form>
+            {/* <Form {...form}>
+              <form
+                onSubmit={(event) => {
+                  form.handleSubmit(onSubmit);
+                }}
+              >
                 <FormField
                   control={form.control}
                   name="username"
@@ -61,10 +145,7 @@ export default function Home() {
                     </FormItem>
                   )}
                 />
-              </form>
-            </Form>
-            <Form {...form}>
-              <form onSubmit={() => form.handleSubmit(onSubmit)}>
+
                 <FormField
                   control={form.control}
                   name="password"
@@ -92,13 +173,17 @@ export default function Home() {
                     </FormItem>
                   )}
                 />
+               
+                <Button
+                  type="submit"
+                  className="w-[40%] bg-[#36B5B0] text-[#040D12] mt-4 hover:text-label"
+                >
+                  Sign in
+                </Button>
+             
               </form>
-            </Form>
-            <div className="w-full flex justify-center">
-              <Button className="w-[40%] bg-[#36B5B0] text-[#040D12] mt-2 hover:text-label">
-                Sign in
-              </Button>
-            </div>
+            </Form> */}
+
             <div className="w-full text-label flex items-center">
               {" "}
               dont have an acount?{" "}
