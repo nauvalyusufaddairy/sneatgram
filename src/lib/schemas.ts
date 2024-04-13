@@ -1,9 +1,31 @@
 import * as zod from "zod";
 
 import { getEmail, getUsername } from "@/actions/checkCredentialExist";
-import debounce from "lodash.debounce";
 
 export type EmailAlreadyTakenError = string | undefined;
+
+function debounce<T>(
+  callback: (arg: T) => Promise<any>,
+  delay: number
+): (arg: T) => Promise<any> {
+  let timeoutId: NodeJS.Timeout | null = null;
+
+  return (arg: T) => {
+    return new Promise((resolve, reject) => {
+      clearTimeout(timeoutId!);
+      timeoutId = setTimeout(() => {
+        console.log("iam being hit");
+        callback(arg)
+          .then((result) => {
+            resolve(result);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      }, delay);
+    });
+  };
+}
 
 const checkEmailAvailability = debounce(
   (email: string) =>

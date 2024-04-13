@@ -84,6 +84,3 @@ export default {
     },
   },
 } satisfies NextAuthConfig;
-export const config = {
-  unstable_allowDynamic: ["**/node_modules/lodash.debounce/**/*.js"],
-};
